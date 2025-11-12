@@ -2,22 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <!-- Configura la vista para dispositivos móviles (responsive design) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Riego Automatizado v2.0</title>
     
-    <!-- Chart.js -->
+    <!-- Importa la librería Chart.js para las gráficas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     
-    <!-- Estilos CSS -->
-    <link rel="stylesheet" href="css/style-global.css">
-    <link rel="stylesheet" href="css/style-monitoring.css">
-    <link rel="stylesheet" href="css/style-charts.css">
-    <link rel="stylesheet" href="css/style-arduino.css">
+    <!-- Enlaces a las hojas de estilo CSS -->
+    <link rel="stylesheet" href="css/style-global.css"> <!-- Estilos principales -->
+    <link rel="stylesheet" href="css/style-monitoring.css"> <!-- Estilos para la página de monitoreo -->
+    <link rel="stylesheet" href="css/style-charts.css"> <!-- Estilos para la página de gráficas -->
+    <link rel="stylesheet" href="css/style-arduino.css"> <!-- Estilos para la página de conexión -->
 </head>
 <body>
-    <!-- Header Global -->
+    <!-- Header Global: La barra superior fija con el título y estado -->
     <div class="header-global">
         <div class="header-content">
+            <!-- Sección del logo y título -->
             <div class="logo-section">
                 <div class="logo-icon">🌱</div>
                 <div class="logo-text">
@@ -25,6 +27,7 @@
                     <p>Multi-Arduino v2.0</p>
                 </div>
             </div>
+            <!-- Indicadores de estado de conexión (Sensores y Bomba) -->
             <div class="connection-indicators">
                 <div class="indicator" id="sensor-indicator">
                     <span class="indicator-dot">⚪</span>
@@ -38,8 +41,9 @@
         </div>
     </div>
 
-    <!-- Navegación -->
+    <!-- Navegación: La barra principal para cambiar de página (SPA) -->
     <nav class="main-nav">
+        <!-- Llama a showPage() de navigation.js para mostrar/ocultar divs -->
         <a href="#" class="nav-item active" onclick="showPage('monitoring'); return false;">
             <span class="nav-icon">📊</span>
             <span>Monitoreo y Control</span>
@@ -55,15 +59,16 @@
     </nav>
 
     <!-- ========================================= -->
-    <!-- PÁGINA 1: MONITOREO Y CONTROL -->
+    <!-- PÁGINA 1: MONITOREO Y CONTROL (Div principal de la página 1) -->
     <!-- ========================================= -->
     <div id="page-monitoring" class="page-content active">
         <div class="container">
             
-            <!-- Estado Actual de Sensores -->
+            <!-- Estado Actual de Sensores (Las 5 tarjetas principales) -->
             <div class="section">
                 <h3>📊 Estado de Sensores en Tiempo Real</h3>
                 <div class="status-grid">
+                    <!-- Tarjeta para el Sensor de Gas (MQ-135) -->
                     <div class="status-card normal" id="gasCard">
                         <div class="status-header">
                             <span class="status-title">🔥 Sensor de Gas</span>
@@ -73,6 +78,7 @@
                         <div class="status-description" id="gasStatus">🟢 Normal - Sin detección</div>
                     </div>
 
+                    <!-- Tarjeta para el Nivel de Tanque (HC-SR04) -->
                     <div class="status-card normal" id="ultrasonicCard">
                         <div class="status-header">
                             <span class="status-title">📏 Nivel de Tanque</span>
@@ -82,6 +88,7 @@
                         <div class="status-description" id="ultrasonicStatus">❌ Sin datos del sensor</div>
                     </div>
 
+                    <!-- Tarjeta para la Humedad del Suelo (YL-69) -->
                     <div class="status-card normal" id="soilCard">
                         <div class="status-header">
                             <span class="status-title">🌱 Humedad del Suelo</span>
@@ -91,6 +98,7 @@
                         <div class="status-description" id="soilStatus">Sin datos del sensor</div>
                     </div>
 
+                    <!-- Tarjeta para la Temperatura (DHT11) -->
                     <div class="status-card normal" id="tempCard">
                         <div class="status-header">
                             <span class="status-title">🌡️ Temperatura</span>
@@ -100,6 +108,7 @@
                         <div class="status-description" id="tempStatus">Sin datos</div>
                     </div>
 
+                    <!-- Tarjeta para la Humedad del Aire (DHT11) -->
                     <div class="status-card normal" id="humidCard">
                         <div class="status-header">
                             <span class="status-title">💨 Humedad del Aire</span>
@@ -111,11 +120,11 @@
                 </div>
             </div>
 
-            <!-- Configuración de Parámetros -->
+            <!-- Configuración de Parámetros (Umbrales de Gas y Ultrasonido) -->
             <div class="section">
                 <h3>⚙️ Configuración de Parámetros del Sistema</h3>
                 <div class="config-grid">
-                    <!-- Configuración de Gas -->
+                    <!-- Tarjeta de configuración para el Gas -->
                     <div class="config-card">
                         <div class="config-title">🔥 Parámetros de Gas</div>
                         <div class="param-input-group">
@@ -132,6 +141,7 @@
                         </div>
                         <button class="btn" onclick="updateGasParameters()">Actualizar Gas</button>
                         
+                        <!-- Muestra los parámetros de gas actuales -->
                         <div class="param-display" id="gasParametersDisplay">
                             <strong>Parámetros de Gas:</strong><br>
                             🟢 Bueno: 0 - 30<br>
@@ -141,7 +151,7 @@
                         </div>
                     </div>
 
-                    <!-- Configuración de Ultrasonido -->
+                    <!-- Tarjeta de configuración para el Ultrasonido -->
                     <div class="config-card">
                         <div class="config-title">📏 Parámetros de Ultrasonido</div>
                         <div class="param-input-group">
@@ -158,6 +168,7 @@
                         </div>
                         <button class="btn" onclick="updateUltrasonicParameters()">Actualizar Ultrasonido</button>
                         
+                        <!-- Muestra los parámetros de ultrasonido actuales -->
                         <div class="param-display" id="ultraParametersDisplay">
                             <strong>Parámetros de Ultrasonido:</strong><br>
                             🔴 Desborde (Vacío): 0 - 5 cm<br>
@@ -173,10 +184,12 @@
             <div class="section">
                 <h3>🇪🇨 Configuración de Plantas del Ecuador</h3>
                 <div class="controls-grid">
+                    <!-- Columna 1: Selección de Planta y Región -->
                     <div class="control-group">
                         <h4>Seleccionar Planta por Región</h4>
                         <div class="input-group">
                             <label>Planta:</label>
+                            <!-- Lista desplegable (select) con el glosario de plantas (de plants.js) -->
                             <select id="plantSelect">
                                 <option value="">Seleccionar planta...</option>
                                 <optgroup label="🍇 Frutas Tropicales">
@@ -219,12 +232,14 @@
                         </div>
                         <div class="input-group">
                             <label>Región del Ecuador:</label>
+                            <!-- Lista desplegable para la región -->
                             <select id="regionSelect">
                                 <option value="costa">🏖️ Costa (0-1000m)</option>
                                 <option value="sierra">⛰️ Sierra (1000-3500m)</option>
                                 <option value="oriente">🌿 Oriente Amazónico</option>
                             </select>
                         </div>
+                        <!-- Campo oculto que aparece si se selecciona "Agregar Nueva..." -->
                         <div id="customPlantInput" style="display: none;">
                             <div class="input-group">
                                 <label>Nombre de la planta:</label>
@@ -232,11 +247,14 @@
                             </div>
                         </div>
                         <div class="text-center">
+                            <!-- Botón que llama a selectPlantEcuador() de plants.js -->
                             <button class="btn" onclick="selectPlantEcuador()">🌱 Aplicar Planta</button>
+                            <!-- Botón que llama a showPlantGlossary() de plants.js -->
                             <button class="btn btn-info" onclick="showPlantGlossary()">📖 Ver Glosario Completo</button>
                         </div>
                     </div>
 
+                    <!-- Columna 2: Inputs para parámetros personalizados -->
                     <div class="control-group">
                         <h4>Parámetros Personalizados (Opcional)</h4>
                         <div class="input-group">
@@ -259,11 +277,12 @@
                             <label>Humedad del Aire Óptima (%):</label>
                             <input type="number" id="humidOptimal" min="0" max="100" value="60">
                         </div>
+                        <!-- Botón que llama a updateParameters() de monitoring.js -->
                         <button class="btn" onclick="updateParameters()">⚙️ Actualizar Parámetros</button>
                     </div>
                 </div>
                 
-                <!-- Información de la planta seleccionada -->
+                <!-- Tarjeta que muestra la información de la planta seleccionada -->
                 <div id="plantInfoDisplay" class="mt-2">
                     <div class="plant-info-card">
                         <h4>ℹ️ Información de la Planta</h4>
@@ -271,7 +290,7 @@
                     </div>
                 </div>
 
-                <!-- Parámetros actuales -->
+                <!-- Display que muestra los parámetros actuales en uso -->
                 <div id="currentParameters">
                     <strong>Parámetros Actuales:</strong><br>
                     Humedad Suelo: 25% - 75%<br>
@@ -280,21 +299,24 @@
                 </div>
             </div>
 
-            <!-- Control de Bomba -->
+            <!-- Sección de Control de Bomba -->
             <div class="section">
                 <div class="pump-control">
                     <h3>💧 Control de Bomba de Riego</h3>
                     <div class="pump-status" id="pumpStatusDisplay">
                         Estado: <span id="pumpState">Desactivada</span>
                     </div>
+                    <!-- Botón principal de la bomba, llama a togglePump() de monitoring.js -->
                     <button class="btn pump-btn" id="pumpBtn" onclick="togglePump()">
                         🔴 Activar Bomba
                     </button>
+                    <!-- Botones de control de modo y emergencia -->
                     <div class="mt-2">
                         <button class="btn btn-info" onclick="autoMode()">🤖 Modo Automático</button>
                         <button class="btn btn-warning" onclick="manualMode()">👤 Modo Manual</button>
                         <button class="btn btn-danger" id="emergencyBtn" onclick="emergencyStop()">🚨 Parada de Emergencia</button>
                     </div>
+                    <!-- Muestra el modo actual (Manual, Automático, Emergencia) -->
                     <div id="autoModeStatus" class="mt-2">
                         Modo: Manual
                     </div>
@@ -305,31 +327,36 @@
     </div>
 
     <!-- ========================================= -->
-    <!-- PÁGINA 2: GRÁFICAS Y DATOS -->
+    <!-- PÁGINA 2: GRÁFICAS Y DATOS (Div principal de la página 2) -->
     <!-- ========================================= -->
     <div id="page-charts" class="page-content">
         <div class="container">
             
-            <!-- Gráficas -->
+            <!-- Sección de Gráficas (Canvas) -->
             <div class="section">
                 <h3>📊 Gráficas en Tiempo Real</h3>
                 <div class="charts-grid">
+                    <!-- Canvas (lienzo) donde Chart.js dibujará la gráfica de sensores -->
                     <div class="chart-container">
                         <div class="chart-title">Sensores en Tiempo Real</div>
                         <canvas id="sensorsChart"></canvas>
                     </div>
+                    <!-- Canvas para la gráfica de dona de alertas -->
                     <div class="chart-container">
                         <div class="chart-title">Estados de Alerta</div>
                         <canvas id="alertsChart"></canvas>
                     </div>
+                    <!-- Canvas para la gráfica de línea de Gas -->
                     <div class="chart-container">
                         <div class="chart-title">Historial de Gas (Configurable)</div>
                         <canvas id="gasChart"></canvas>
                     </div>
+                    <!-- Canvas para la gráfica de barra de Ultrasonido -->
                     <div class="chart-container">
                         <div class="chart-title">Nivel Ultrasonido (Configurable)</div>
                         <canvas id="ultraChart"></canvas>
                     </div>
+                    <!-- Canvas para la gráfica de barra de Riego -->
                     <div class="chart-container">
                         <div class="chart-title">Historial de Riego</div>
                         <canvas id="irrigationChart"></canvas>
@@ -337,10 +364,11 @@
                 </div>
             </div>
 
-            <!-- Estadísticas -->
+            <!-- Sección de Estadísticas (Contadores) -->
             <div class="section">
                 <h3>📈 Estadísticas del Sistema</h3>
                 <div class="stats-grid">
+                    <!-- Contadores numéricos actualizados por monitoring.js -->
                     <div class="stat-item">
                         <div class="stat-value" id="totalReadings">0</div>
                         <div class="stat-label">Lecturas Totales</div>
@@ -376,17 +404,20 @@
                 </div>
             </div>
 
-            <!-- Botones de Control de Datos -->
+            <!-- Botones de Control de Datos (Importar/Exportar) -->
             <div class="section">
                 <h3>⚙️ Gestión de Datos</h3>
                 
                 <div class="data-controls">
+                    <!-- Botón para resetear datos de sensores (de charts.js) -->
                     <button class="btn" id="resetBtn" onclick="resetSensors()">
                         🔄 Resetear Sensores
                     </button>
+                    <!-- Botón para borrar todo el historial (de charts.js) -->
                     <button class="btn btn-warning" id="clearBtn" onclick="clearData()">
                         🗑️ Limpiar Datos
                     </button>
+                    <!-- Botón para exportar datos (de charts.js) -->
                     <button class="btn btn-info" id="exportBtn" onclick="exportData()">
                         📊 Exportar Datos
                     </button>
@@ -398,9 +429,11 @@
                         Exporta los datos del sistema en formato JSON para guardar un respaldo, 
                         o importa datos previamente guardados para restaurar el sistema.
                     </p>
+                    <!-- Botón "falso" que activa el input "real" (oculto) -->
                     <label for="importFile" class="btn btn-success" style="cursor: pointer;">
                         📂 Importar Datos JSON
                     </label>
+                    <!-- Input real para seleccionar el archivo (oculto por CSS) -->
                     <input type="file" id="importFile" accept=".json" style="display: none;">
                 </div>
             </div>
@@ -409,16 +442,16 @@
     </div>
 
     <!-- ========================================= -->
-    <!-- PÁGINA 3: CONEXIÓN ARDUINO -->
+    <!-- PÁGINA 3: CONEXIÓN ARDUINO (Div principal de la página 3) -->
     <!-- ========================================= -->
     <div id="page-arduino" class="page-content">
         <div class="container">
             
-            <!-- Sección de Conexión Arduino -->
+            <!-- Sección de Conexión Arduino (Tarjetas de conexión) -->
             <div class="section">
                 <h3>🔌 Conexiones Arduino</h3>
                 <div class="connection-grid">
-                    <!-- Arduino de Sensores -->
+                    <!-- Tarjeta para conectar el Arduino de Sensores -->
                     <div class="arduino-card" id="sensorsArduino">
                         <div class="arduino-title">
                             🌡️ Arduino Sensores
@@ -433,14 +466,18 @@
                             </select>
                         </div>
                         
+                        <!-- Botón para conectar (llama a arduino.js) -->
                         <button class="btn" id="connectSensors" onclick="connectSensorsArduino()">
                             Conectar Sensores
                         </button>
+                        <!-- Botón para desconectar (llama a arduino.js) -->
                         <button class="btn btn-danger" id="disconnectSensors" onclick="disconnectSensorsArduino()" disabled>
                             Desconectar
                         </button>
                         
+                        <!-- Log de estado de conexión -->
                         <div class="connection-log" id="sensorsLog">Esperando conexión...</div>
+                        <!-- Display de datos crudos (actualizado por monitoring.js) -->
                         <div class="data-display" id="sensorsData">Sin datos de sensores</div>
                         
                         <div class="baudrate-info">
@@ -448,7 +485,7 @@
                         </div>
                     </div>
 
-                    <!-- Arduino de Bomba -->
+                    <!-- Tarjeta para conectar el Arduino de Bomba -->
                     <div class="arduino-card" id="pumpArduino">
                         <div class="arduino-title">
                             💧 Arduino Bomba
@@ -463,14 +500,18 @@
                             </select>
                         </div>
                         
+                        <!-- Botón para conectar (llama a arduino.js) -->
                         <button class="btn" id="connectPump" onclick="connectPumpArduino()">
                             Conectar Bomba
                         </button>
+                        <!-- Botón para desconectar (llama a arduino.js) -->
                         <button class="btn btn-danger" id="disconnectPump" onclick="disconnectPumpArduino()" disabled>
                             Desconectar
                         </button>
                         
+                        <!-- Log de comandos (ON/OFF) -->
                         <div class="connection-log" id="pumpLog">Esperando conexión...</div>
+                        <!-- Display de estado de la bomba (actualizado por monitoring.js) -->
                         <div class="data-display" id="pumpData">Sin datos de bomba</div>
                         
                         <div class="baudrate-info">
@@ -480,7 +521,7 @@
                 </div>
             </div>
 
-            <!-- Controles Rápidos -->
+            <!-- Controles Rápidos (Conectar/Desconectar Todo) -->
             <div class="section">
                 <h3>⚡ Controles Rápidos</h3>
                 <div class="quick-controls">
@@ -496,7 +537,7 @@
                 </div>
             </div>
 
-            <!-- Indicadores de Estado -->
+            <!-- Indicadores de Estado (Resumen de conexión) -->
             <div class="section">
                 <h3>📊 Estado de Conexiones</h3>
                 <div style="text-align: center; margin-top: 20px;">
@@ -511,7 +552,7 @@
                 </div>
             </div>
 
-            <!-- Información de Ayuda -->
+            <!-- Información de Ayuda y Troubleshooting -->
             <div class="test-section">
                 <h4>🔍 Guía de Conexión</h4>
                 <div style="text-align: left; max-width: 800px; margin: 0 auto;">
@@ -543,12 +584,12 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
-    <script src="js/global.js"></script>
-    <script src="js/plants.js"></script>
-    <script src="js/monitoring.js"></script>
-    <script src="js/arduino.js"></script>
-    <script src="js/charts.js"></script>
-    <script src="js/navigation.js"></script>
+    <!-- Importación de todos los archivos JavaScript -->
+    <script src="js/global.js"></script> <!-- Variables globales y funciones de alerta -->
+    <script src="js/plants.js"></script> <!-- Base de datos de plantas y lógica de selección -->
+    <script src="js/monitoring.js"></script> <!-- Lógica principal (procesa datos, controla UI, bomba) -->
+    <script src="js/arduino.js"></script> <!-- Lógica de conexión Web Serial (conectar/desconectar) -->
+    <script src="js/charts.js"></script> <!-- Inicialización y actualización de gráficas (Chart.js) -->
+    <script src="js/navigation.js"></script> <!-- Lógica para cambiar entre páginas (SPA) -->
 </body>
 </html>
